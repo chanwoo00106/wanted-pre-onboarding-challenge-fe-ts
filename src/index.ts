@@ -36,3 +36,35 @@ interface deleteTodo {
 interface deleteTodoTags {
   (id: string, tags?: string[]): void;
 }
+
+// ----------------------추가 코드----------------------
+
+class TodoList {
+  private todos: todoitem[] = [];
+
+  getTodo: getTodo = (id) => {
+    return { ...this.todos.filter((i) => i.id === id)[0] };
+  };
+
+  createTodo: createTodo = (todo) => {
+    this.todos.push(todo);
+  };
+
+  updateTodo: updateTodo = (todo) => {
+    const index = this.todos.findIndex((i) => i.id === todo.id);
+    if (!index) throw new Error("Not found todo");
+
+    this.todos[index] = {
+      ...todo,
+    };
+  };
+
+  deleteTodo: deleteTodo = (id) => {
+    this.todos = this.todos.filter((i) => i.id === id);
+  };
+
+  deleteTodoTags: deleteTodoTags = (id, tags) => {
+    const index = this.todos.findIndex((i) => i.id === id);
+    this.todos[index].tags = tags;
+  };
+}
