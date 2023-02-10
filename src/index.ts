@@ -60,7 +60,7 @@ class TodoList {
   };
 
   deleteTodo: deleteTodo = (id) => {
-    this.todos = this.todos.filter((i) => i.id === id);
+    this.todos = this.todos.filter((i) => i.id !== id);
   };
 
   deleteTodoTags: deleteTodoTags = (id, tags) => {
@@ -68,3 +68,34 @@ class TodoList {
     this.todos[index].tags = tags;
   };
 }
+
+// ----------------------추가 코드----------------------
+
+const todos: todoitem[] = [];
+
+const getTodo: getTodo = (id) => {
+  return { ...todos.filter((i) => i.id === id)[0] };
+};
+
+const createTodo: createTodo = (todo) => {
+  todos.push(todo);
+};
+
+const updateTodo: updateTodo = (todo) => {
+  const index = todos.findIndex((i) => i.id === todo.id);
+  if (!index) throw new Error("Not found todo");
+
+  todos[index] = {
+    ...todo,
+  };
+};
+
+const deleteTodo: deleteTodo = (id) => {
+  const index = todos.findIndex((i) => i.id === id);
+  delete todos[index];
+};
+
+const deleteTodoTags: deleteTodoTags = (id, tags) => {
+  const index = todos.findIndex((i) => i.id === id);
+  todos[index].tags = tags;
+};
